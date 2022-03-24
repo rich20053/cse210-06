@@ -18,7 +18,7 @@ class Frog(Actor):
         self.set_position(newposition)
         # Set the score, Frog not on log or turtle, and that the game is not over. 
         self.score = 0
-        self._on_log_turtle = False
+        self.log_or_turtle = False
         self._is_game_over = False
         
     def set_game_over(self):
@@ -28,7 +28,7 @@ class Frog(Actor):
     def move_next(self):
         """Moves the frog to its next position according to its velocity. Will wrap the position 
         from one side of the screen to the other when it reaches the given maximum x and y values.
-        
+        Keeps the frog from going off the side.
         Args:
             None.
         """
@@ -58,13 +58,13 @@ class Frog(Actor):
         return(g_score)
     
     def set_on_log_or_turtle(self):
-        self._on_log_turtle = True
+        self.log_or_turtle = True
         
     def set_off_log_or_turtle(self):
-        self._on_log_turtle = False
+        self.log_or_turtle = False
         
-    def is_on_log_or_turtle(self):
-        return(self._on_log_turtle)
+    def on_log_or_turtle(self):
+        return(self.log_or_turtle)
     
     def set_velocity(self, velocity):
         """
