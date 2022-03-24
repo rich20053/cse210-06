@@ -18,7 +18,7 @@ class Frog(Actor):
         self.set_position(newposition)
         # Set the score, Frog not on log or turtle, and that the game is not over. 
         self.score = 0
-        self._on_log_or_turtle = False
+        self._on_log_turtle = False
         self._is_game_over = False
         
     def set_game_over(self):
@@ -58,13 +58,13 @@ class Frog(Actor):
         return(g_score)
     
     def set_on_log_or_turtle(self):
-        self._on_log_or_turtle = True
+        self._on_log_turtle = True
         
     def set_off_log_or_turtle(self):
-        self._on_log_or_turtle = False
+        self._on_log_turtle = False
         
     def is_on_log_or_turtle(self):
-        return(self._on_log_or_turtle)
+        return(self._on_log_turtle)
     
     def set_velocity(self, velocity):
         """
