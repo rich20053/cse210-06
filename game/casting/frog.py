@@ -5,148 +5,80 @@ from game.shared.point import Point
 
 class Frog(Actor):
     """
-    A long Cycle with a trailing tail.
-    
-    The responsibility of cycle is to move itself and avoid other cycle tails.
-
-    Attributes:
-        _points (int): The number of points the food is worth.
+    This is the Frog that moves in the game and it is also an obstacle for another way to lose.
     """
     def __init__(self):
-        """Constructs a new Cycle.
-        
-        Args:
-            None.
-        """
         super().__init__()
-        self._velocity = Point(0, -constants.CELL_SIZE)
-        self.is_game_over = False
-        self._segments = []
-
-    def get_segments(self):
-        """Gets the cycle's segment list.
+        # Set the text and color of the frog.
+        self.set_text("#")
+        self.set_color(constants.GREEN)
+        # Create the position of the Frog.
+        position = Point(int(constants.COLUMNS / 2), 14)
+        newposition = position.scale(constants.CELL_SIZE)
+        self.set_position(newposition)
+        # Set the score, Frog not on log or turtle, and that the game is not over. 
+        self.score = 0
+        self.log_or_turtle = False
+        self._is_game_over = False
         
-        Returns:
-            string: The cycle's segment list.
-        """
-        return self._segments
+    def set_game_over(self):
+        # This will end the game when called. 
+        self._is_game_over = True
 
     def move_next(self):
-        """Moves the cycle to its next position according to its velocity. Will wrap the position 
+        """Moves the frog to its next position according to its velocity. Will wrap the position 
         from one side of the screen to the other when it reaches the given maximum x and y values.
-        
+        Keeps the frog from going off the side.
         Args:
             None.
         """
-        # move all segments
-        for segment in self._segments:
-            segment.move_next()
-        # update velocities
-        for i in range(len(self._segments) - 1, 0, -1):
-            trailing = self._segments[i]
-            previous = self._segments[i - 1]
-            velocity = previous.get_velocity()
-            trailing.set_velocity(velocity)
+        # If the game is over we don't want to move.
+        if (self._is_game_over):
+            return
+        x = (self._position.get_x() + self._velocity.get_x())
+        if (x > constants.MAX_X - 41):
+            x = constants.MAX_X - 41
+        if (x < 0):
+            x = 0
+        y = (self._position.get_y() + self._velocity.get_y()) 
+        if (y > constants.MAX_Y - 41):
+            y = constants.MAX_Y - 41
+        if (y < 0):
+            y = constants.MAX_Y - 41
+            self.add_score(1)
+        # Sets the new position.
+        self._position = Point(x, y)
 
-    def get_head(self):
-        """Gets the cycle's head segment.
-        
-        Returns:
-            string: The cycle's head segment.
-        """
-        return self._segments[0]
+    def add_score(self, score):
+        self._score += score
 
-    def grow_tail(self, number_of_segments):
-        """
-        Increases the cycle's segment list by one
-        
-        Args:
-            int: The length of the cycle's segment list.
-        """
-        for i in range(number_of_segments):
-            tail = self._segments[-1]
-            velocity = tail.get_velocity()
-            offset = velocity.reverse()
-            position = tail.get_position().add(offset)
-        
-            segment = Actor()
-            segment.set_position(position)
-            segment.set_velocity(velocity)
-            segment.set_text("#")
-            segment.set_color(self.get_color())
-            self._segments.append(segment)
-
-    def turn_head(self, velocity):
-        """Changes the direction of the cycles by changing the velocity so the head moves in a different direction.
-        
-        Returns:
-            Point: The cycle's velocity.
-        """
-        self._segments[0].set_velocity(velocity)
+    def get_score(self):
+        g_score = self._score
+        self._score = 0
+        return(g_score)
     
-    def _prepare_body(self):
-        """
-        Builds the cycle's segment list.
+    def set_on_log_or_turtle(self):
+        self.log_or_turtle = True
         
-        Based on the CYCLE_LENGTH constant
-
-        """
-        x = self.get_cycle_x_start()
-        y = self.get_cycle_y_start()
+    def set_off_log_or_turtle(self):
+        self.log_or_turtle = False
+        
+    def on_log_or_turtle(self):
+        return(self.log_or_turtle)
     
-        for i in range(constants.CYCLE_LENGTH):
-            position = Point(x, y + i * constants.CELL_SIZE)
-            velocity = Point(0, -1 * constants.CELL_SIZE)
-            text = "@" if i == 0 else "#"
-            color = self.get_color()
-            
-            segment = Actor()
-            segment.set_position(position)
-            segment.set_velocity(velocity)
-            segment.set_text(text)
-            segment.set_color(color)
-            self._segments.append(segment)
-    
-    def get_cycle_x_start(self):
-        """Gets the cycle's start position x value.
-        
-        Returns:
-            int: The cycle's start position x value.
+    def set_velocity(self, velocity):
         """
-        return(int(constants.CELL_SIZE * (constants.COLUMNS / 6)))
+        Updates the velocity.
+        """
+        self._velocity = velocity
 
-    def get_cycle_y_start(self):
-        """Gets the cycle's start position y value.
-        
-        Returns:
-            int: The cycle's start position y value.
+    def set_velocity_and_move(self, velocity):
         """
-        return(int(constants.CELL_SIZE * (constants.ROWS / 2)))
-    
-    def get_color(self):
-        """Gets the cycle's color.
-        
-        Returns:
-            color: The cycle's color (r, g, b).
+        Updates the velocity and calls move_next.
         """
-        return(self._color)
-
-    def set_game_over(self):
-        """
-        Sets the cycle's game over value so that it turns white and no longer scores points.
-        
-        """
-        self.is_game_over = True
-        self._color = constants.WHITE
-  
-    def is_game_over(self):
-        """
-        Gets the cycle's game over value (boolean).
-        
-        Returns:
-            boolean: The cycles's game over value.
-        """
-        return(self.is_game_over)
-  
-
+        old_velocity = self._velocity.get_y()
+        self._velocity = velocity
+        new_velocity = self._velocity.get_y()
+        if (old_velocity != new_velocity):
+            self.move_next()
         
