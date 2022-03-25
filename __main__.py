@@ -3,7 +3,6 @@ from game.casting.boundary import Boundary
 
 from game.casting.cast import Cast
 from game.casting.car import Car
-from game.casting.redcar import RedCar
 from game.casting.score import Score
 from game.casting.truck import Truck
 from game.casting.frog import Frog
