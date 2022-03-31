@@ -1,7 +1,14 @@
 import constants
+import logging
 from game.casting.helper import Helper
 from game.shared.point import Point
 
+
+logger = logging.getLogger()
+handler = logging.FileHandler('logfile.log')
+logger.addHandler(handler)
+logger.error('First Log Message')
+logging.info('It is going well')
 
 class Log(Helper):
     """
