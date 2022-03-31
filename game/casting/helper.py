@@ -71,9 +71,12 @@ class Helper(Actor):
         
         Based on the CYCLE_LENGTH constant
 
+        
+        x = self.get_cycle_x_start()
+        y = self.get_cycle_y_start()
         """
         for i in range(self._length):
-            position = Point(x, y)
+            position = Point((x + i) * constants.CELL_SIZE, y * constants.CELL_SIZE)
             segvelocity = velocity
             text = self._text
             color = self.get_color()
@@ -84,7 +87,23 @@ class Helper(Actor):
             segment.set_text(text)
             segment.set_color(color)
             self._segments.append(segment)
+    '''
+    def get_hazzard_x_start(self):
+        """Gets the cycle's start position x value.
+        
+        Returns:
+            int: The cycle's start position x value.
+        """
+        return(int(constants.CELL_SIZE * (constants.COLUMNS / 6)))
 
+    def get_hazzard_y_start(self):
+        """Gets the cycle's start position y value.
+        
+        Returns:
+            int: The cycle's start position y value.
+        """
+        return(int(constants.CELL_SIZE * (constants.ROWS / 2)))
+    '''
     def get_color(self):
         """Gets the cycle's color.
         

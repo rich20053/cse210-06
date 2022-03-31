@@ -1,9 +1,9 @@
 import constants
-from game.casting.helper import Helper
+from game.casting.hazzard import Hazzard
 from game.shared.point import Point
 
 
-class Turtle(Helper):
+class RedCar(Hazzard):
     """
     Try not to run into this item.
     
@@ -14,11 +14,11 @@ class Turtle(Helper):
     """
     def __init__(self, x, y, length, velocity):
         super().__init__(length)
-        self.set_text("O")
-        self.set_color(constants.GREEN)
+        self.set_text("C")
+        self.set_color(constants.RED)
         position = Point(x,y)
         newpos = position.scale(constants.CELL_SIZE)
         self.set_position(newpos)
-        self._prepare_body(x,y, velocity)
+        self._prepare_body(x, y, velocity)
 
         

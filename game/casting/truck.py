@@ -12,13 +12,13 @@ class Truck(Hazzard):
     Attributes:
         None.
     """
-    def __init__(self, x, y):
+    def __init__(self, x, y, length, velocity):
         super().__init__(length)
         self.set_text("T")
         self.set_color(constants.YELLOW)
         position = Point(x,y)
         newpos = position.scale(constants.CELL_SIZE)
         self.set_position(newpos)
-        self._prepare_body(x,y)
+        self._prepare_body(x,y, velocity)
 
         

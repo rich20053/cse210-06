@@ -50,9 +50,6 @@ class MoveActorsAction(Action):
             logs = cast.get_actors("logs")
             for log in logs:
                 log.move_next()
-            #self._frogspeed -= 1
-            #if self._frogspeed == 0:
-            #self._frogspeed = self._frogpace
             frog.move_next()
         
 
@@ -60,4 +57,3 @@ class MoveActorsAction(Action):
         self.pace = speed
         self.growth = speed
 
-        

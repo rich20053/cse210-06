@@ -7,7 +7,7 @@ class ControlActorsAction(Action):
     """
     An input action that controls the player.
     
-    The responsibility of ControlActorsAction is to get the direction and move the frog.
+    The responsibility of ControlActorsAction is to get the direction and move the palyer's head.
 
     Attributes:
         _keyboard_service (KeyboardService): An instance of KeyboardService.
@@ -20,9 +20,8 @@ class ControlActorsAction(Action):
             keyboard_service (KeyboardService): An instance of KeyboardService.
         """
         self._keyboard_service = keyboard_service
-        self._direction = Point(0, -constants.CELL_SIZE)
+        self._direction = Point(0, 0)
         self._new_game = False
-        self._last_direction = 'w'
 
     def execute(self, cast, script):
         """Executes the control actors action.
@@ -31,48 +30,17 @@ class ControlActorsAction(Action):
             cast (Cast): The cast of Actors in the game.
             script (Script): The script of Actions in the game.
         """
-        # Frog movement
-        # left
-        if self._keyboard_service.is_key_down('a'):
-            self._direction = Point(-constants.CELL_SIZE, 0)
-            if self._last_direction != 'a':
-                self._last_direction = 'a'
+        """Gets directional input from the keyboard and applies it to the robot.
         
-        # right
-        if self._keyboard_service.is_key_down('d'):
-            self._direction = Point(constants.CELL_SIZE, 0)
-            if self._last_direction != 'd':
-                self._last_direction = 'd'
-        
-        # up
-        if self._keyboard_service.is_key_down('w'):
-            self._direction = Point(0, -constants.CELL_SIZE)
-            if self._last_direction != 'w':
-                self._last_direction = 'w'
-                
-        # down
-        if self._keyboard_service.is_key_down('s'):
-            self._direction = Point(0, constants.CELL_SIZE)
-            if self._last_direction != 's':
-                self._last_direction = 's'
-        
+        Args:
+            cast (Cast): The cast of actors.
+        """
         frog = cast.get_first_actor("frog")
-        frog.turn_head(self._direction)
+        velocity = self._keyboard_service.get_direction()
+        if (frog.is_on_log_or_turtle()):
+            if ((velocity.get_y() != 0) or (velocity.get_x() != 0)):
+                frog.set_velocity(velocity)
+        else:
+            frog.set_velocity(velocity)
 
-        # Signal new game
-        if self._keyboard_service.is_key_down('n'):
-            collision = script.get_first_action("check")
-            collision.start_new_game()
-            all_messages = cast.get_actors("messages")
-            for message in all_messages:
-                cast.remove_actor("messages", message)
-            frog.__init__()
-            all_obstacles = cast.get_actors("obstacles")
-            for obstacle in all_obstacles:
-                obstacle.__init__()
-            all_prizes = cast.get_actors("prizes")
-            for prize in all_prizes:
-                prize.__init__()
-            self._direction = Point(0, -constants.CELL_SIZE)
-            self._new_game = False
-            self._last_direction = 'w'
+            
