@@ -5,15 +5,13 @@ from game.shared.point import Point
 
 class Helper(Actor):
     """
-    A long Cycle with a trailing tail.
-    
-    The responsibility of cycle is to move itself and avoid other cycle tails.
+   The first step is to avoid crashing with the objects, second, forward through the otherside of the street.
 
     Attributes:
-        _points (int): The number of points the food is worth.
+        _points (int): Reach the otherside of the street without to die.
     """
     def __init__(self, length):
-        """Constructs a new Cycle.
+        """Constructs a new frog.
         
         Args:
             None.
@@ -50,11 +48,7 @@ class Helper(Actor):
             trailing.set_velocity(velocity)
 
     def get_head(self):
-        """Gets the cycle's head segment.
-        
-        Returns:
-            string: The cycle's head segment.
-        """
+       
         return self._segments[0]
 
     def turn_head(self, velocity):
