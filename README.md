@@ -3,9 +3,9 @@
 # Frogger Game
 
 The object of this game is to move the frog represented by '#' from the bottom of the screen to the top
-past the obstacles.  In the bottom half of the screen, the from must pass the cars ("C") and Trucks ("T").  The frog dies if hit by a car or truck. In the top half of the screen, ther frog must cross the water on the logs("L") or turtles("O").  If the frog falls in the water, it dies (I guess this frog cannot swim haha). The frog moves by using the arrow keys.  Each time the frog crosses and advances past the top of the screen, the score is incremented and the frog starts at the bottom again.
+past the obstacles.  In the bottom half of the screen, the frog must pass the cars ("C") and trucks ("T").  The frog dies if hit by a car or truck. In the top half of the screen, ther frog must cross the water on the logs("L") or turtles("O").  If the frog falls in the water, it dies (I guess this frog cannot swim haha). The frog moves by using the arrow keys.  Each time the frog crosses and advances past the top of the screen, the score is incremented and the frog starts at the bottom again.
 
-# files/Classes
+# files/classes
 
 __main__.py
 constants.py
